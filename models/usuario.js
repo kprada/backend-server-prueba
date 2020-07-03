@@ -1,7 +1,13 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
 
-var usuarioSchema = newSchema({
+var uniqueValidator = require('mongoose-unique-validator');
+var Schema = mongoose.Schema;
+var rolesValidos = {
+    values: ['ADMIN_USER', 'USER_CLIENT'],
+    message: '{VALUE} no es un rol permitido'
+}
+
+var usuarioSchema = new Schema({
 
     nombre: { type: String, required: [true, 'El nombre es necesario'] },
     apellido: { type: String, required: [true, 'El apellido es necesario'] },
@@ -9,16 +15,18 @@ var usuarioSchema = newSchema({
     fecha_nacimiento: { type: String, required: [true, 'La fecha de nacimiento es necesario'] },
     pais: { type: String, required: [true, 'El pais es necesario'] },
     ciudad: { type: String, required: [true, 'La ciudad es necesario'] },
-    avatar: { type: String, required: false },
+    avatar: { type: String, required: false, default: null },
     tipo_usuario: {
         type: String,
         required: true,
-        default: 'USER_ROLE'
+        default: 'USER_CLIENT',
+        enum: rolesValidos
     },
     password: { type: String, required: [true, 'la password es necesario'] },
 
 
 
 });
+usuarioSchema.plugin(uniqueValidator, { message: ' {PATH} el correo ya existe' })
 
-module.export = mongoose.model('Usuario', usuarioSchema);
+module.exports = mongoose.model('Usuario', usuarioSchema);
