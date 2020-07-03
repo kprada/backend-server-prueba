@@ -3,6 +3,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var fileUpload = require('express-fileupload');
 
 
 
@@ -12,13 +13,17 @@ var app = express(); //definiendo servidor express
 
 //importacion de rutas
 
-var appRoutes = require('./routes/app');
 var usuarioRoutes = require('./routes/usuario');
 var loginRoutes = require('./routes/login');
+var uploadRoutes = require('./routes/upload');
+
+
+
 
 
 
 //MIDDLEWARES
+app.use(fileUpload());
 /* SE EJECUTA ANTES DEEJECUTAR LA ACCION DE UNA PETICION */
 //BODY-PARSER
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -48,7 +53,8 @@ app.use((req, res, next) => {
 //RUTAS
 app.use('/apiRest', usuarioRoutes); //aqui se define un alias a las rutas
 app.use('/login', loginRoutes); //aqui se define un alias a las rutas
-app.use('/', appRoutes);
+app.use('/upload', uploadRoutes); //aqui se define un alias a las rutas
+
 
 //ESCUCHAR PETICIONES
 

@@ -3,6 +3,8 @@ var app = express();
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 var SEED = require('../config/config').SEED;
+var fileUpload = require('express-fileupload');
+
 
 
 
@@ -43,6 +45,16 @@ var middleares = {
         }
 
     },
+
+
+    fileUp: app.use(fileUpload()),
+
+
+
+
+
+
+
 }
 
 
